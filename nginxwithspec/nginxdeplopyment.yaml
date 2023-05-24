@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  testweb
+  namespace: default
+  labels:
+    app:  testweb
+spec:
+  selector:
+    matchLabels:
+      app: testweb
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  testweb
+    spec:
+      containers:
+      - name:  testweb
+        image:  nginx:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort:  1234
+      restartPolicy: Always

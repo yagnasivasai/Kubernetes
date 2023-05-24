@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: movie-ingress
+  namespace: default
+spec:
+  rules:
+    - host: bollywood.movies.com
+      http:
+        paths:
+          - backend:
+              serviceName: bollywood-svc
+              servicePort: 80
+    - host: hollywood.movies.com
+      http:
+        paths:
+          - backend:
+              serviceName: hollywood-svc
+              servicePort: 80
+    - host: tollywood.movies.com
+      http:
+        paths:
+          - backend:
+              serviceName: tollywood-svc
+              servicePort: 80

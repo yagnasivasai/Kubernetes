@@ -1,0 +1,31 @@
+# When the EndpointController starts, it will detect the endpoints without corresponding services, and delete these endpoints.
+# Create a Services without Selectors
+apiVersion: v1
+kind: Service
+metadata:
+  name: testservice
+  namespace: default
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+# Because this Service has no selector, the corresponding Endpoint object is not created automatically.
+# You can manually map the Service to the network address and port where it’s running,
+# by adding an Endpoint object manually:
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: testservice
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.1.0.70
+  - ip: 10.1.0.71
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP

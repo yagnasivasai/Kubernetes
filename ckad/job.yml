@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job
+  namespace: default
+  labels:
+    app: job
+spec:
+  template:
+    metadata:
+      name: job
+      labels:
+        app: job
+    spec:
+      containers:
+        - name: job
+          image: python:3.7.6-alpine3.10
+          command:
+            [
+              "sh",
+              "-c",
+              "python3 manage.py makemigrations && python3 manage.py migrate",
+            ]
+          env:
+            - name: ENV_NAME
+              value: ENV_VALUE
+          volumeMounts:
+            - name: localtime
+              mountPath: /etc/localtime
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+
+      restartPolicy: OnFailure
+      dnsPolicy: ClusterFirst

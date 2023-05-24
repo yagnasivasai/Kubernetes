@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tollywood
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tollywood
+  template:
+    metadata:
+      labels:
+        app: tollywood
+    spec:
+      containers:
+      - name: tollywood
+        image: harshal1098/ingressimages:tollywood
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tollywood-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 10012
+    protocol: TCP
+  selector:
+    app: tollywood
