@@ -51,6 +51,7 @@
 - https://blog.devops.dev/deploying-nginx-server-with-kubernetes-2eb38306db1e
 
 
+- https://piotrminkowski.com/2022/12/14/sealed-secrets-on-kubernetes-with-argocd-and-terraform/
 
 
 ### Monitoring
@@ -95,3 +96,12 @@
 
 + https://github.com/hclpandv/devops-training-material/blob/master/kubernetes/k8s-interview-questions.md
 
+## Github
+
++ https://github.com/stacksimplify/azure-aks-kubernetes-masterclass
+
++ https://github.com/stacksimplify/aws-eks-kubernetes-masterclass
+
++ https://github.com/nleiva/kubernetes-networking-links
++ https://github.com/bigbitbus/k8s-tutorial-python
++ https://github.com/danushkaf/cloudformation_sample_templates
