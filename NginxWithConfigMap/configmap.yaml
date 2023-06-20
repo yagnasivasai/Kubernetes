@@ -1,0 +1,32 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: myconfig
+  namespace: default
+data:
+  index.html: |
+    <html>
+      <head>
+        <title> Clothing & Accessories </title>
+      </head>
+      <body>
+        <h1> This is Deployment One </h1>
+      </body>
+    </html>
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cm
+  namespace: default
+data:
+  index.html: |
+    <html>
+      <head>
+        <title> Clothing & Accessories 2 </title>
+      </head>
+      <body>
+        <h1> This is Deployment two </h1>
+      </body>
+    </html>
