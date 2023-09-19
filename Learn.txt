@@ -4,6 +4,7 @@ kubectl -n kube-system exec -it  etcd-master -- sh -c "ETCDCTL_API=3 ETCDCTL_CAC
 
 kubectl -n kube-system exec -it  etcd-master -- sh -c "ETCDCTL_API=3 ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key etcdctl --endpoints=https://127.0.0.1:2379 member list -w table"
 
+https://hackernoon.com/how-upgrade-kubernetes-cluster-on-centos
 
 yum list --showduplicates kubeadm --disableexcludes=kubernetes
 kubectl drain master-node-1 --ignore-daemonsets
