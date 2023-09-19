@@ -3,3 +3,8 @@ kubectl -n kube-system exec -it  etcd-master -- sh -c "ETCDCTL_API=3.5 ETCDCTL_C
 kubectl -n kube-system exec -it  etcd-master -- sh -c "ETCDCTL_API=3 ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key etcdctl --endpoints=https://127.0.0.1:2379 member list"
 
 kubectl -n kube-system exec -it  etcd-master -- sh -c "ETCDCTL_API=3 ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key etcdctl --endpoints=https://127.0.0.1:2379 member list -w table"
+
+
+yum list --showduplicates kubeadm --disableexcludes=kubernetes
+sudo yum install -y kubeadm-1.27.2-0 --disableexcludes=kubernetes
+kubeadm version -o json
