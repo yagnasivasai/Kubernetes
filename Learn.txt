@@ -52,3 +52,25 @@ scp client.pem client-key.pem ca.pem root@192.168.233.144
 scp client.pem client-key.pem ca.pem root@192.168.233.144:/root/
 
 
+curl --cert ./client.pem --key ./client-key.pem --cacert ./ca.pem https://192.168.233.142:6443/api/v1/namespaces/default/pods -XPOST -H'Cont
+ent-Type: application/json' -d@curlpod.json
+
+{
+"kind": "Pod",
+"apiVersion": "v1",
+"metadata":{
+"name": "curlpod",
+"namespace": "default",
+"labels": {
+"name": "examplepod"
+}
+},
+"spec": {
+"containers": [{
+"name": "nginx",
+"image": "nginx",
+"ports": [{"containerPort": 80}]
+}]
+}
+}
+
