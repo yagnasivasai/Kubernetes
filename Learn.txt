@@ -24,3 +24,31 @@ kubeadm upgrade node
 yum install -y kubelet-1.26.9-0 kubectl-1.26.9-0 --disableexcludes=kubernetes
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 kubectl uncordon worker-node-1
+
+less $HOME/.kube/config
+config file not found
+kubectl get pods -v=6
+you can see now where is the config file
+
+for non-root user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+kubectl get pods -v=6
+export client=$(grep client-cert /etc/kubernetes/admin.conf |cut -d" " -f 6)
+echo $client
+export key=$(grep client-key-data /etc/kubernetes/admin.conf |cut -d " " -f 6)
+echo $key
+export auth=$(grep certificate-authority-data /etc/kubernetes/admin.conf |cut -d " " -f 6)
+echo $auth
+echo $client | base64 -d - > ./client.pem
+echo $key | base64 -d - > ./client-key.pem
+echo $auth | base64 -d - > ./ca.pem
+kubectl config view | grep server
+curl --cert ./client.pem --key ./client-key.pem --cacert ./ca.pem https://192.168.233.142:6443
+scp client.pem client-key.pem ca.pem root@192.168.233.144
+scp client.pem client-key.pem ca.pem root@192.168.233.144:/root/
+
+
