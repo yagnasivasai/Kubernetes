@@ -73,4 +73,6 @@ ent-Type: application/json' -d@curlpod.json
 }]
 }
 }
-
+kubectl run nginx --image=nginx --dry-run=client -o yaml
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml
