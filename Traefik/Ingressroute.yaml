@@ -1,0 +1,65 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`master`) && (PathPrefix(`/`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+
+
+kubectl get ingressroute.traefik.io
+------
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`192.168.233.128`) && (PathPrefix(`/`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: traefik
+          port: 9000
+
+------
+
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingressroute
+  # namespace: <your-namespace>
+spec:
+  entryPoints:
+    web:
+      address: "192.168.233.128:9000"
+  routes:
+    - match: Host(`192.168.233.128`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: traefik
+          port: 9000
+-------
+
+
+
+------
+kind: IngressRoute
+metadata:
+  name: promotheus
+spec:
+  entryPoints:
+    - http-web
+  routes:
+    - match: Host(`192.168.233.128`)
+      kind: Rule
+      services:
+        - name: prometheus-kube-prometheus-prometheus
+          port: 9090
