@@ -18,7 +18,7 @@ Need more information? Visit https://istio.io/latest/docs/setup/install/
 k3d cluster create wasm-cluster --image ghcr.io/deislabs/containerd-wasm-shims/examples/k3d:v0.5.1 -p "8081:80@loadbalancer" --agents 2
 
 
-eksctl create cluster --name=sigle \
+eksctl create cluster --name=single \
                       --region=ap-south-1 \
                       --zones=ap-south-1a,ap-south-1b \
                       --without-nodegroup
@@ -28,9 +28,9 @@ eksctl utils associate-iam-oidc-provider \
     --cluster sigle \
     --approve
     
-eksctl create nodegroup --cluster=sigle \
+eksctl create nodegroup --cluster=single \
                        --region=ap-south-1 \
-                       --name=sigle-ng-public1 \
+                       --name=single-ng-public1 \
                        --node-type=t2.micro \
                        --nodes=1 \
                        --nodes-min=1 \
@@ -46,10 +46,10 @@ eksctl create nodegroup --cluster=sigle \
                        --alb-ingress-access
                        
 eksctl get clusters
-eksctl get nodegroup --cluster=sigle
+eksctl get nodegroup --cluster=single
 
-eksctl delete nodegroup --cluster=sigle --name=sigle-ng-public1
-eksctl delete cluster sigle
+eksctl delete nodegroup --cluster=sigle --name=single-ng-public1
+eksctl delete cluster single
 
 kubectl create service nodeport ns-service --tcp=80:80 --dry-run=client -o yaml
 kubectl create deployment nginx --image=nginx --dry-run=client -o yaml > deploy.yaml
