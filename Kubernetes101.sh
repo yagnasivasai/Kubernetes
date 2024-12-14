@@ -44,4 +44,71 @@ kubectl get pods --all-namespaces -o json --field-selector \
 		   
 ___________________________________________________________________________________________________________________________________________________________________________
 
-kubectl create configmap demo-config - from-literal=example.key="Initial Value"
+kubectl create configmap demo-config --from-literal=example.key="Initial Value"
+kubectl run nginx-pod --image=nginx --restart=Never --port=80 -n default
+kubectl run nginx --image=nginx --type=NodePort --port=80 --dry-run=client -o yaml > nginx.yaml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    env:
+    - name: EXAMPLE_KEY
+      valueFrom: 
+        configMapKeyRef:
+          name: demo-config
+          key: example.key
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+---
+kubectl exec nginx -- env | grep EXAMPLE_KEY
+kubectl patch configmap demo-config -p '{"data":{"example.key":"First Update:env variables"}}'
+_________________________________________________________________________________________________________________________________________________________________________________________________
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-config-pod
+  name: nginx-config-pod
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: config-volume
+    configMap:
+      name: demo-config
+status: {}
+
+
